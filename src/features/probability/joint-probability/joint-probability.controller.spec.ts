@@ -41,4 +41,31 @@ describe('JointProbabilityController', () => {
       expect(actual).toEqual(expected);
     });
   });
+
+  describe('calculateUnionForThreeEvents', () => {
+    it('should call the JointProbabilityService with the correct arguments', () => {
+      const expected = { foo: 'bar' };
+
+      const jointProbabilityServiceSpy = jest.spyOn(
+        jointProbabilityService,
+        'calculateUnionForThreeEvents',
+      );
+
+      underTest.calculateUnionForThreeEvents(expected as any);
+
+      expect(jointProbabilityServiceSpy).toHaveBeenCalledWith(expected);
+    });
+
+    it('should return the result', () => {
+      const expected = 1234;
+
+      jest
+        .spyOn(jointProbabilityService, 'calculateUnionForThreeEvents')
+        .mockReturnValueOnce(expected as any);
+
+      const actual = underTest.calculateUnionForThreeEvents({} as any);
+
+      expect(actual).toEqual(expected);
+    });
+  });
 });
