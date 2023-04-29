@@ -1,6 +1,6 @@
 import { TestBed } from '@automock/jest';
 import { JointProbabilityService } from './joint-probability.service';
-import { TwoEventsUnionDto } from './model';
+import { ThreeEventsUnionDto, TwoEventsUnionDto } from './model';
 
 describe('JointProbabilityService', () => {
   let underTest: JointProbabilityService;
@@ -44,12 +44,101 @@ describe('JointProbabilityService', () => {
         expected: 0.3,
       },
     ])(
-      'should return the correct result %o',
+      'should return the correct result %j',
       ({ expected, ...twoEventsUnionDto }) => {
         const actual = underTest.calculateUnionForTwoEvents(twoEventsUnionDto);
 
         expect(actual).toEqual(expected);
       },
     );
+
+    describe('when result is greater than 1', () => {
+      it('should return 1', () => {
+        const actual = underTest.calculateUnionForTwoEvents({
+          eventA: { probability: 0.75 },
+          eventB: { probability: 0.6 },
+          intersection: { probability: 0.15 },
+        });
+
+        expect(actual).toBe(1);
+      });
+    });
+
+    describe('when result is less than 0', () => {
+      it('should return 0', () => {
+        const actual = underTest.calculateUnionForTwoEvents({
+          eventA: { probability: 0.01 },
+          eventB: { probability: 0.05 },
+          intersection: { probability: 0.1 },
+        });
+
+        expect(actual).toBe(0);
+      });
+    });
+  });
+
+  describe('calculateUnionForThreeEvents', () => {
+    it.each<ThreeEventsUnionDto & { expected: number }>([
+      {
+        eventA: { probability: 0.5 },
+        eventB: { probability: 0.5 },
+        eventC: { probability: 0.5 },
+        intersectionAB: { probability: 0.25 },
+        intersectionAC: { probability: 0.25 },
+        intersectionBC: { probability: 0.25 },
+        intersectionABC: { probability: 0.25 },
+        expected: 1,
+      },
+      {
+        eventA: { probability: 0.2 },
+        eventB: { probability: 0.3 },
+        eventC: { probability: 0.9 },
+        intersectionAB: { probability: 0.1 },
+        intersectionAC: { probability: 0.35 },
+        intersectionBC: { probability: 0.65 },
+        intersectionABC: { probability: 0.5 },
+        expected: 0.8,
+      },
+    ])(
+      'should return the correct result %j',
+      ({ expected, ...threeEventsUnionDto }) => {
+        const actual =
+          underTest.calculateUnionForThreeEvents(threeEventsUnionDto);
+
+        expect(actual).toEqual(expected);
+      },
+    );
+
+    describe('when result is greater than 1', () => {
+      it('should return 1', () => {
+        const actual = underTest.calculateUnionForThreeEvents({
+          eventA: { probability: 0.75 },
+          eventB: { probability: 0.6 },
+          eventC: { probability: 0.8 },
+          intersectionAB: { probability: 0.15 },
+          intersectionAC: { probability: 0.1 },
+          intersectionBC: { probability: 0.2 },
+          intersectionABC: { probability: 0.05 },
+        });
+
+        expect(actual).toBe(1);
+      });
+    });
+
+    describe('when result is less than 0', () => {
+      it('should return 0', () => {
+        const actual = underTest.calculateUnionForThreeEvents({
+          eventA: { probability: 0.01 },
+          eventB: { probability: 0.05 },
+          eventC: { probability: 0.021 },
+          intersectionAB: { probability: 0.15 },
+          intersectionAC: { probability: 0.5 },
+          intersectionBC: { probability: 0.75 },
+          intersectionABC: { probability: 0.1 },
+        });
+
+        expect(actual).toBe(0);
+      });
+    });
   });
 });

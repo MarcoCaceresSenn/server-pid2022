@@ -1,0 +1,32 @@
+import { ProbalisticEvent, Intersection } from '@features/probability/shared';
+import { IsNotEmptyObject, ValidateNested } from 'class-validator';
+
+export class ThreeEventsUnionDto {
+  @ValidateNested()
+  @IsNotEmptyObject()
+  eventA: ProbalisticEvent;
+
+  @ValidateNested()
+  @IsNotEmptyObject()
+  eventB: ProbalisticEvent;
+
+  @ValidateNested()
+  @IsNotEmptyObject()
+  eventC: ProbalisticEvent;
+
+  @ValidateNested()
+  @IsNotEmptyObject()
+  intersectionAB: Intersection;
+
+  @ValidateNested()
+  @IsNotEmptyObject()
+  intersectionAC: Intersection;
+
+  @ValidateNested()
+  @IsNotEmptyObject()
+  intersectionBC: Intersection;
+
+  @ValidateNested()
+  @IsNotEmptyObject()
+  intersectionABC: Intersection;
+}
