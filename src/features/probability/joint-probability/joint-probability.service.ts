@@ -1,23 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { ThreeEventsUnionDto, TwoEventsUnionDto } from './model';
+import { ThreeProbabilitiesUnionDto, TwoEventsProbabilitesDto } from './model';
 import { Big } from 'big.js';
 
+// TODO: Return an object with information about
+// P(AUB), P(A'∩B), P(A∩B'), and so on
 @Injectable()
 export class JointProbabilityService {
-  calculateUnionForTwoEvents({
+  calculateProbabilitiesForTwoEvents({
     eventA,
     eventB,
     intersection,
-  }: TwoEventsUnionDto) {
+  }: TwoEventsProbabilitesDto) {
     const probability = new Big(eventA.probability)
       .plus(eventB.probability)
-      .minus(intersection.probability)
-      .toNumber();
+      .minus(intersection.probability);
 
-    return this.normalizeProbability(probability);
+    const normalizedProbability = this.normalizeProbability(
+      probability.toNumber(),
+    );
+
+    return normalizedProbability;
   }
 
-  calculateUnionForThreeEvents({
+  calculateProbabilitiesForThreeEvents({
     eventA,
     eventB,
     eventC,
@@ -25,7 +30,7 @@ export class JointProbabilityService {
     intersectionAC,
     intersectionBC,
     intersectionABC,
-  }: ThreeEventsUnionDto) {
+  }: ThreeProbabilitiesUnionDto) {
     const sumOfInfividualIntersectionsProbabilities = new Big(
       intersectionAB.probability,
     )
@@ -36,10 +41,13 @@ export class JointProbabilityService {
       .plus(eventB.probability)
       .plus(eventC.probability)
       .minus(sumOfInfividualIntersectionsProbabilities)
-      .plus(intersectionABC.probability)
-      .toNumber();
+      .plus(intersectionABC.probability);
 
-    return this.normalizeProbability(probability);
+    const normalizedProbability = this.normalizeProbability(
+      probability.toNumber(),
+    );
+
+    return normalizedProbability;
   }
 
   // TODO: Move to a shared module/service

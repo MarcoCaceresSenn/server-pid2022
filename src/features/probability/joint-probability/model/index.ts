@@ -1,2 +1,2 @@
-export * from './three-events-union.dto';
-export * from './two-events-union.dto';
+export * from './three-events-probabilities.dto';
+export * from './two-events-probabilities.dto';

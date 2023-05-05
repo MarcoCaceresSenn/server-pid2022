@@ -1,6 +1,6 @@
 import { TestBed } from '@automock/jest';
 import { JointProbabilityService } from './joint-probability.service';
-import { ThreeEventsUnionDto, TwoEventsUnionDto } from './model';
+import { ThreeProbabilitiesUnionDto, TwoEventsProbabilitesDto } from './model';
 
 describe('JointProbabilityService', () => {
   let underTest: JointProbabilityService;
@@ -12,7 +12,7 @@ describe('JointProbabilityService', () => {
   });
 
   describe('calculateUnionForTwoEvents', () => {
-    it.each<TwoEventsUnionDto & { expected: number }>([
+    it.each<TwoEventsProbabilitesDto & { expected: number }>([
       {
         eventA: { probability: 0.5 },
         eventB: { probability: 0.5 },
@@ -46,7 +46,8 @@ describe('JointProbabilityService', () => {
     ])(
       'should return the correct result %j',
       ({ expected, ...twoEventsUnionDto }) => {
-        const actual = underTest.calculateUnionForTwoEvents(twoEventsUnionDto);
+        const actual =
+          underTest.calculateProbabilitiesForTwoEvents(twoEventsUnionDto);
 
         expect(actual).toEqual(expected);
       },
@@ -54,7 +55,7 @@ describe('JointProbabilityService', () => {
 
     describe('when result is greater than 1', () => {
       it('should return 1', () => {
-        const actual = underTest.calculateUnionForTwoEvents({
+        const actual = underTest.calculateProbabilitiesForTwoEvents({
           eventA: { probability: 0.75 },
           eventB: { probability: 0.6 },
           intersection: { probability: 0.15 },
@@ -66,7 +67,7 @@ describe('JointProbabilityService', () => {
 
     describe('when result is less than 0', () => {
       it('should return 0', () => {
-        const actual = underTest.calculateUnionForTwoEvents({
+        const actual = underTest.calculateProbabilitiesForTwoEvents({
           eventA: { probability: 0.01 },
           eventB: { probability: 0.05 },
           intersection: { probability: 0.1 },
@@ -78,7 +79,7 @@ describe('JointProbabilityService', () => {
   });
 
   describe('calculateUnionForThreeEvents', () => {
-    it.each<ThreeEventsUnionDto & { expected: number }>([
+    it.each<ThreeProbabilitiesUnionDto & { expected: number }>([
       {
         eventA: { probability: 0.5 },
         eventB: { probability: 0.5 },
@@ -103,7 +104,7 @@ describe('JointProbabilityService', () => {
       'should return the correct result %j',
       ({ expected, ...threeEventsUnionDto }) => {
         const actual =
-          underTest.calculateUnionForThreeEvents(threeEventsUnionDto);
+          underTest.calculateProbabilitiesForThreeEvents(threeEventsUnionDto);
 
         expect(actual).toEqual(expected);
       },
@@ -111,7 +112,7 @@ describe('JointProbabilityService', () => {
 
     describe('when result is greater than 1', () => {
       it('should return 1', () => {
-        const actual = underTest.calculateUnionForThreeEvents({
+        const actual = underTest.calculateProbabilitiesForThreeEvents({
           eventA: { probability: 0.75 },
           eventB: { probability: 0.6 },
           eventC: { probability: 0.8 },
@@ -127,7 +128,7 @@ describe('JointProbabilityService', () => {
 
     describe('when result is less than 0', () => {
       it('should return 0', () => {
-        const actual = underTest.calculateUnionForThreeEvents({
+        const actual = underTest.calculateProbabilitiesForThreeEvents({
           eventA: { probability: 0.01 },
           eventB: { probability: 0.05 },
           eventC: { probability: 0.021 },
