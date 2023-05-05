@@ -1,5 +1,5 @@
-import { JointProbabilityController } from './joint-probability.controller';
 import { TestBed } from '@automock/jest';
+import { JointProbabilityController } from './joint-probability.controller';
 import { JointProbabilityService } from './joint-probability.service';
 
 describe('JointProbabilityController', () => {

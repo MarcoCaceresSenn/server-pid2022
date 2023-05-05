@@ -1,2 +1,2 @@
-export * from './three-events-probabilities.dto';
-export * from './two-events-probabilities.dto';
+export * from './three-events-joint-probability.dto';
+export * from './two-events-joint-probability.dto';

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { JointProbabilityService } from './joint-probability.service';
 import { JointProbabilityController } from './joint-probability.controller';
+import { JointProbabilityService } from './joint-probability.service';
 
 @Module({
   providers: [JointProbabilityService],

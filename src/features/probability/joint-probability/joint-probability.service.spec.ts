@@ -1,6 +1,9 @@
 import { TestBed } from '@automock/jest';
 import { JointProbabilityService } from './joint-probability.service';
-import { ThreeProbabilitiesUnionDto, TwoEventsProbabilitiesDto } from './model';
+import {
+  ThreeEventsJointProbabilityUnionDto,
+  TwoEventsJointProbabilityDto,
+} from './model';
 
 describe('JointProbabilityService', () => {
   let underTest: JointProbabilityService;
@@ -13,7 +16,7 @@ describe('JointProbabilityService', () => {
 
   describe('calculateUnionForTwoEvents', () => {
     it.each<{
-      input: TwoEventsProbabilitiesDto;
+      input: TwoEventsJointProbabilityDto;
       expected: ReturnType<
         JointProbabilityService['calculateProbabilitiesForTwoEvents']
       >;
@@ -140,7 +143,7 @@ describe('JointProbabilityService', () => {
   });
 
   describe('calculateUnionForThreeEvents', () => {
-    it.each<ThreeProbabilitiesUnionDto & { expected: number }>([
+    it.each<ThreeEventsJointProbabilityUnionDto & { expected: number }>([
       {
         eventA: { probability: 0.5 },
         eventB: { probability: 0.5 },

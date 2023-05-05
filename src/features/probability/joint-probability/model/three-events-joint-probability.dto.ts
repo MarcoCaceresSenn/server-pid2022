@@ -1,7 +1,7 @@
 import { ProbabilisticEvent, Intersection } from '@features/probability/shared';
 import { IsNotEmptyObject, ValidateNested } from 'class-validator';
 
-export class ThreeProbabilitiesUnionDto {
+export class ThreeEventsJointProbabilityUnionDto {
   @ValidateNested()
   @IsNotEmptyObject()
   eventA: ProbabilisticEvent;
