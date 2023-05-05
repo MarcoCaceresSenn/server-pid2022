@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Big } from 'big.js';
 import { ProbabilityUtils } from '../shared';
 import {
-  ThreeEventsJointProbabilityUnionDto,
-  TwoEventsJointProbabilityDto,
-} from './model';
+  ThreeEventsJointProbabilityUnionRequestDto,
+  TwoEventsJointProbabilityRequestDto,
+  TwoEventsJointProbabilityResponseDto,
+} from './dto';
 
 // TODO: Check what happens when probability is more than 1 or less than 0
 @Injectable()
@@ -13,7 +14,7 @@ export class JointProbabilityService {
     eventA,
     eventB,
     intersectionAB,
-  }: TwoEventsJointProbabilityDto) {
+  }: TwoEventsJointProbabilityRequestDto): TwoEventsJointProbabilityResponseDto {
     // P(AUB) = P(A) + P(B) - P(A∩B)
     const probabilityOfAUnionB = new Big(eventA.probability)
       .plus(eventB.probability)
@@ -60,7 +61,7 @@ export class JointProbabilityService {
     intersectionAC,
     intersectionBC,
     intersectionABC,
-  }: ThreeEventsJointProbabilityUnionDto) {
+  }: ThreeEventsJointProbabilityUnionRequestDto) {
     const sumOfInfividualIntersectionsProbabilities = new Big(
       intersectionAB.probability,
     )

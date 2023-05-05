@@ -1,6 +1,9 @@
-import { ConditionalProbabilityService } from './conditional-probability.service';
 import { TestBed } from '@automock/jest';
-import { TwoEventsConditionalProbabilityDto } from './model';
+import { ConditionalProbabilityService } from './conditional-probability.service';
+import {
+  TwoEventsConditionalProbabilityRequestDto,
+  TwoEventsConditionalProbabilityResponseDto,
+} from './dto';
 
 describe('ConditionalProbabilityService', () => {
   let underTest: ConditionalProbabilityService;
@@ -25,10 +28,8 @@ describe('ConditionalProbabilityService', () => {
     });
 
     it.each<{
-      dto: TwoEventsConditionalProbabilityDto;
-      expected: ReturnType<
-        ConditionalProbabilityService['calculateConditionalProbabilityForTwoEvents']
-      >;
+      dto: TwoEventsConditionalProbabilityRequestDto;
+      expected: TwoEventsConditionalProbabilityResponseDto;
     }>([
       {
         dto: {

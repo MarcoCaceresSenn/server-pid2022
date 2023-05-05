@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ConditionalProbabilityService } from './conditional-probability.service';
-import { TwoEventsConditionalProbabilityDto } from './model';
+import { TwoEventsConditionalProbabilityRequestDto } from './dto';
 
 @Controller({
   path: 'probability/conditional',
@@ -14,10 +14,10 @@ export class ConditionalProbabilityController {
   @Post('two-events')
   calculateConditionalProbabilityForTwoEvents(
     @Body()
-    twoEventsConditionalProbabilityDto: TwoEventsConditionalProbabilityDto,
+    twoEventsConditionalProbabilityRequestDto: TwoEventsConditionalProbabilityRequestDto,
   ) {
     return this.conditionalProbabilityService.calculateConditionalProbabilityForTwoEvents(
-      twoEventsConditionalProbabilityDto,
+      twoEventsConditionalProbabilityRequestDto,
     );
   }
 }

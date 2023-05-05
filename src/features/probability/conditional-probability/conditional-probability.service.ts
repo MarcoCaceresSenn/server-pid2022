@@ -1,14 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { TwoEventsConditionalProbabilityDto } from './model';
 import Big from 'big.js';
 import { ProbabilityUtils } from '../shared';
+import {
+  TwoEventsConditionalProbabilityRequestDto,
+  TwoEventsConditionalProbabilityResponseDto,
+} from './dto';
 
 @Injectable()
 export class ConditionalProbabilityService {
   calculateConditionalProbabilityForTwoEvents({
     eventB,
     intersectionAB,
-  }: TwoEventsConditionalProbabilityDto) {
+  }: TwoEventsConditionalProbabilityRequestDto): TwoEventsConditionalProbabilityResponseDto {
     if (eventB.probability === 0)
       throw new BadRequestException(
         'The probability of event B must be greater than 0',
