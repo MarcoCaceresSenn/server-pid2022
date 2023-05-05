@@ -1,27 +1,54 @@
 import { Injectable } from '@nestjs/common';
-import { ThreeProbabilitiesUnionDto, TwoEventsProbabilitesDto } from './model';
+import { ThreeProbabilitiesUnionDto, TwoEventsProbabilitiesDto } from './model';
 import { Big } from 'big.js';
+import { ProbabilityUtils } from '../shared';
 
-// TODO: Return an object with information about
-// P(AUB), P(A'∩B), P(A∩B'), and so on
+// TODO: Check what happens when probability is more than 1 or less than 0
 @Injectable()
 export class JointProbabilityService {
   calculateProbabilitiesForTwoEvents({
     eventA,
     eventB,
     intersection,
-  }: TwoEventsProbabilitesDto) {
-    const probability = new Big(eventA.probability)
+  }: TwoEventsProbabilitiesDto) {
+    // P(AUB) = P(A) + P(B) - P(A∩B)
+    const probabilityOfAUnionB = new Big(eventA.probability)
       .plus(eventB.probability)
       .minus(intersection.probability);
 
-    const normalizedProbability = this.normalizeProbability(
-      probability.toNumber(),
+    // P(A'∩B) = P(AUB) - P(B)
+    const probabilityOfAComplementIntersectionB = probabilityOfAUnionB.minus(
+      eventB.probability,
     );
 
-    return normalizedProbability;
+    // P(A∩B') = P(AUB) - P(A)
+    const probabilityOfAIntersectionBComplement = probabilityOfAUnionB.minus(
+      eventA.probability,
+    );
+
+    // P(A'∩B) + P(A∩B')
+    const probabilityOfComplementsIntersectionSum =
+      probabilityOfAComplementIntersectionB.plus(
+        probabilityOfAIntersectionBComplement,
+      );
+
+    return {
+      probabilityOfAUnionB: ProbabilityUtils.normalize(
+        probabilityOfAUnionB.toNumber(),
+      ),
+      probabilityOfAComplementIntersectionB: ProbabilityUtils.normalize(
+        probabilityOfAComplementIntersectionB.toNumber(),
+      ),
+      probabilityOfAIntersectionBComplement: ProbabilityUtils.normalize(
+        probabilityOfAIntersectionBComplement.toNumber(),
+      ),
+      probabilityOfComplementsSum: ProbabilityUtils.normalize(
+        probabilityOfComplementsIntersectionSum.toNumber(),
+      ),
+    };
   }
 
+  // TODO: Add same information as `calculateProbabilitiesForTwoEvents` for each intersection
   calculateProbabilitiesForThreeEvents({
     eventA,
     eventB,
@@ -43,18 +70,10 @@ export class JointProbabilityService {
       .minus(sumOfInfividualIntersectionsProbabilities)
       .plus(intersectionABC.probability);
 
-    const normalizedProbability = this.normalizeProbability(
+    const normalizedProbability = ProbabilityUtils.normalize(
       probability.toNumber(),
     );
 
     return normalizedProbability;
-  }
-
-  // TODO: Move to a shared module/service
-  private normalizeProbability(probability: number) {
-    if (probability > 1) return 1;
-    if (probability < 0) return 0;
-
-    return probability;
   }
 }

@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { JointProbabilityService } from './joint-probability.service';
-import { ThreeProbabilitiesUnionDto, TwoEventsProbabilitesDto } from './model';
+import { ThreeProbabilitiesUnionDto, TwoEventsProbabilitiesDto } from './model';
 
 @Controller({
   path: 'probability/joint',
@@ -13,7 +13,7 @@ export class JointProbabilityController {
 
   @Post('two-events')
   calculateProbabilitiesForTwoEvents(
-    @Body() twoEventsProbabilitiesDto: TwoEventsProbabilitesDto,
+    @Body() twoEventsProbabilitiesDto: TwoEventsProbabilitiesDto,
   ) {
     return this.jointProbabilityService.calculateProbabilitiesForTwoEvents(
       twoEventsProbabilitiesDto,
