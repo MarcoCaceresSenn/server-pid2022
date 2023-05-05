@@ -1,0 +1,11 @@
+---
+services:
+  server-pid2022:
+    build:
+      context: .
+      target: dev
+      dockerfile: Dockerfile.dev
+    ports:
+      - 4080:8080
+    volumes:
+      - ./src:/app/src

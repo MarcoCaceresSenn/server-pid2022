@@ -5,5 +5,5 @@ services:
       dockerfile: .devcontainer/Dockerfile
       target: dev
     volumes:
-      - ./server-pid2022:/app
+      - ./:/app
       - /app/node_modules/
