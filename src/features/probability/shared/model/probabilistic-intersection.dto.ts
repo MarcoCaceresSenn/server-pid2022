@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
 
-export class Intersection {
+export class ProbabilisticIntersection {
   @IsNotEmpty()
   @IsNumber()
   @Min(0)
