@@ -6,6 +6,7 @@ const COVERAGE_FILE_SUFFIX = [
   'controller',
   'handler',
   'util',
+  'utils',
   'provider',
   'schema',
   'guard',
