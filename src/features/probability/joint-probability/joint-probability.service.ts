@@ -12,12 +12,12 @@ export class JointProbabilityService {
   calculateProbabilitiesForTwoEvents({
     eventA,
     eventB,
-    intersection,
+    intersectionAB,
   }: TwoEventsJointProbabilityDto) {
     // P(AUB) = P(A) + P(B) - P(A∩B)
     const probabilityOfAUnionB = new Big(eventA.probability)
       .plus(eventB.probability)
-      .minus(intersection.probability);
+      .minus(intersectionAB.probability);
 
     // P(A'∩B) = P(AUB) - P(B)
     const probabilityOfAComplementIntersectionB = probabilityOfAUnionB.minus(

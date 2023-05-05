@@ -25,7 +25,7 @@ describe('JointProbabilityService', () => {
         input: {
           eventA: { probability: 0.5 },
           eventB: { probability: 0.5 },
-          intersection: { probability: 0.25 },
+          intersectionAB: { probability: 0.25 },
         },
         expected: {
           probabilityOfAUnionB: 0.75,
@@ -38,7 +38,7 @@ describe('JointProbabilityService', () => {
         input: {
           eventA: { probability: 0.25 },
           eventB: { probability: 0.75 },
-          intersection: { probability: 0.1 },
+          intersectionAB: { probability: 0.1 },
         },
         expected: {
           probabilityOfAUnionB: 0.9,
@@ -51,7 +51,7 @@ describe('JointProbabilityService', () => {
         input: {
           eventA: { probability: 0 },
           eventB: { probability: 1 },
-          intersection: { probability: 0.2 },
+          intersectionAB: { probability: 0.2 },
         },
         expected: {
           probabilityOfAUnionB: 0.8,
@@ -64,7 +64,7 @@ describe('JointProbabilityService', () => {
         input: {
           eventA: { probability: 0.4 },
           eventB: { probability: 0.2 },
-          intersection: { probability: 0 },
+          intersectionAB: { probability: 0 },
         },
         expected: {
           probabilityOfAUnionB: 0.6,
@@ -77,7 +77,7 @@ describe('JointProbabilityService', () => {
         input: {
           eventA: { probability: 0.1 },
           eventB: { probability: 0.2 },
-          intersection: { probability: 0 },
+          intersectionAB: { probability: 0 },
         },
         expected: {
           probabilityOfAUnionB: 0.3,
@@ -90,7 +90,7 @@ describe('JointProbabilityService', () => {
         input: {
           eventA: { probability: 0.6 },
           eventB: { probability: 0.8 },
-          intersection: { probability: 0.5 },
+          intersectionAB: { probability: 0.5 },
         },
         expected: {
           probabilityOfAUnionB: 0.9,
@@ -110,7 +110,7 @@ describe('JointProbabilityService', () => {
         const actual = underTest.calculateProbabilitiesForTwoEvents({
           eventA: { probability: 0.75 },
           eventB: { probability: 0.6 },
-          intersection: { probability: 0.15 },
+          intersectionAB: { probability: 0.15 },
         });
 
         expect(actual).toEqual(
@@ -127,7 +127,7 @@ describe('JointProbabilityService', () => {
         const actual = underTest.calculateProbabilitiesForTwoEvents({
           eventA: { probability: 0.01 },
           eventB: { probability: 0.05 },
-          intersection: { probability: 0.1 },
+          intersectionAB: { probability: 0.1 },
         });
 
         expect(actual).toEqual(

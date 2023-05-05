@@ -12,5 +12,5 @@ export class TwoEventsJointProbabilityDto {
 
   @ValidateNested()
   @IsNotEmptyObject()
-  intersection: Intersection;
+  intersectionAB: Intersection;
 }
