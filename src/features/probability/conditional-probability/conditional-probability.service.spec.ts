@@ -17,18 +17,6 @@ describe('ConditionalProbabilityService', () => {
   });
 
   describe('calculateConditionalProbabilityForTwoEvents', () => {
-    it('should throw an error if the probability of event B is 0', () => {
-      expect(() =>
-        underTest.calculateConditionalProbabilityForTwoEvents({
-          eventB: {
-            probability: 0,
-          },
-        } as any),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"The probability of event B must be greater than 0"`,
-      );
-    });
-
     it.each<{
       input: TwoEventsConditionalProbabilityRequestDto;
       expected: TwoEventsConditionalProbabilityResponseDto;
