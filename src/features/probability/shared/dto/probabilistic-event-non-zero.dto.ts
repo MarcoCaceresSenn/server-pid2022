@@ -1,10 +1,3 @@
-import { IsNotEmpty, IsNumber, Max, IsPositive } from 'class-validator';
-import { ProbabilisticEventDto } from './probabilistic-event.dto';
+import { ProbabilityNonZeroDto } from './probability-non-zero.dto';
 
-export class ProbabilisticEventNonZeroDto extends ProbabilisticEventDto {
-  @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
-  @Max(1)
-  override probability: number;
-}
+export class ProbabilisticEventNonZeroDto extends ProbabilityNonZeroDto {}

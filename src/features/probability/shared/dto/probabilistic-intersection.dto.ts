@@ -1,9 +1,3 @@
-import { IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
+import { ProbabilityDto } from './probability.dto';
 
-export class ProbabilisticIntersectionDto {
-  @IsNotEmpty()
-  @IsNumber()
-  @Min(0)
-  @Max(1)
-  probability: number;
-}
+export class ProbabilisticIntersectionDto extends ProbabilityDto {}
