@@ -1,6 +1,8 @@
 import { TestBed } from '@automock/jest';
 import { ConditionalProbabilityService } from './conditional-probability.service';
 import {
+  IndependentEventsConditionalProbabilityRequestDto,
+  IndependentEventsConditionalProbabilityResposenDto,
   TwoEventsConditionalProbabilityRequestDto,
   TwoEventsConditionalProbabilityResponseDto,
 } from './dto';
@@ -28,39 +30,40 @@ describe('ConditionalProbabilityService', () => {
     });
 
     it.each<{
-      dto: TwoEventsConditionalProbabilityRequestDto;
+      input: TwoEventsConditionalProbabilityRequestDto;
       expected: TwoEventsConditionalProbabilityResponseDto;
     }>([
       {
-        dto: {
+        input: {
           eventB: { probability: 0.5 },
           intersectionAB: { probability: 0.5 },
         },
         expected: { probabilityOfAGivenB: 1 },
       },
       {
-        dto: {
+        input: {
           eventB: { probability: 0.5 },
           intersectionAB: { probability: 0.25 },
         },
         expected: { probabilityOfAGivenB: 0.5 },
       },
       {
-        dto: {
+        input: {
           eventB: { probability: 1 },
           intersectionAB: { probability: 0.65 },
         },
         expected: { probabilityOfAGivenB: 0.65 },
       },
       {
-        dto: {
+        input: {
           eventB: { probability: 0.7 },
           intersectionAB: { probability: 0 },
         },
         expected: { probabilityOfAGivenB: 0 },
       },
-    ])('should return the correct result %j', ({ dto, expected }) => {
-      const actual = underTest.calculateConditionalProbabilityForTwoEvents(dto);
+    ])('should return the correct result %j', ({ input, expected }) => {
+      const actual =
+        underTest.calculateConditionalProbabilityForTwoEvents(input);
 
       expect(actual).toEqual(expected);
     });
@@ -78,6 +81,53 @@ describe('ConditionalProbabilityService', () => {
           }),
         );
       });
+    });
+  });
+
+  describe('calculateConditionalProbabilityForIndependentEvents', () => {
+    it.each<{
+      input: IndependentEventsConditionalProbabilityRequestDto;
+      expected: IndependentEventsConditionalProbabilityResposenDto;
+    }>([
+      {
+        input: {
+          events: [
+            { probability: 0.5 },
+            { probability: 0.5 },
+            { probability: 0.5 },
+          ],
+        },
+        expected: { probabilityOfOcurrence: 0.125 },
+      },
+      {
+        input: {
+          events: [
+            { probability: 0.2 },
+            { probability: 0.4 },
+            { probability: 0.6 },
+            { probability: 0.8 },
+            { probability: 1 },
+          ],
+        },
+        expected: { probabilityOfOcurrence: 0.0384 },
+      },
+      {
+        input: {
+          events: [
+            { probability: 0.2 },
+            { probability: 0.4 },
+            { probability: 0.6 },
+            { probability: 0.8 },
+            { probability: 0 },
+          ],
+        },
+        expected: { probabilityOfOcurrence: 0 },
+      },
+    ])('should return the correct result %j', ({ input, expected }) => {
+      const actual =
+        underTest.calculateConditionalProbabilityForIndependentEvents(input);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

@@ -2,6 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import Big from 'big.js';
 import { ProbabilityUtils } from '../shared';
 import {
+  IndependentEventsConditionalProbabilityRequestDto,
+  IndependentEventsConditionalProbabilityResposenDto,
   TwoEventsConditionalProbabilityRequestDto,
   TwoEventsConditionalProbabilityResponseDto,
 } from './dto';
@@ -25,6 +27,23 @@ export class ConditionalProbabilityService {
     return {
       probabilityOfAGivenB: ProbabilityUtils.normalize(
         probabilityOfAGivenB.toNumber(),
+      ),
+    };
+  }
+
+  calculateConditionalProbabilityForIndependentEvents({
+    events,
+  }: IndependentEventsConditionalProbabilityRequestDto): IndependentEventsConditionalProbabilityResposenDto {
+    const probabilityOfOcurrence = events.reduce(
+      (accumulatedProbability, event) => {
+        return accumulatedProbability.times(event.probability);
+      },
+      new Big(1),
+    );
+
+    return {
+      probabilityOfOcurrence: ProbabilityUtils.normalize(
+        probabilityOfOcurrence.toNumber(),
       ),
     };
   }

@@ -46,4 +46,39 @@ describe('ConditionalProbabilityController', () => {
       expect(actual).toEqual(expected);
     });
   });
+
+  describe('calculateConditionalProbabilityForIndependentEvents', () => {
+    it('should call the ConditionalProbabilityService with the correct arguments', () => {
+      const expected = { foo: 'bar' };
+
+      const conditionalProbabilityServiceSpy = jest.spyOn(
+        conditionalProbabilityService,
+        'calculateConditionalProbabilityForIndependentEvents',
+      );
+
+      underTest.calculateConditionalProbabilityForIndependentEvents(
+        expected as any,
+      );
+
+      expect(conditionalProbabilityServiceSpy).toHaveBeenCalledWith(expected);
+    });
+
+    it('should return the result', () => {
+      const expected = 1234;
+
+      jest
+        .spyOn(
+          conditionalProbabilityService,
+          'calculateConditionalProbabilityForIndependentEvents',
+        )
+        .mockReturnValueOnce(expected as any);
+
+      const actual =
+        underTest.calculateConditionalProbabilityForIndependentEvents(
+          {} as any,
+        );
+
+      expect(actual).toEqual(expected);
+    });
+  });
 });
