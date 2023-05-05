@@ -1,35 +1,35 @@
 import {
-  ProbabilisticEvent,
-  ProbabilisticIntersection,
+  ProbabilisticEventDto,
+  ProbabilisticIntersectionDto,
 } from '@features/probability/shared';
 import { IsNotEmptyObject, ValidateNested } from 'class-validator';
 
 export class ThreeEventsJointProbabilityUnionRequestDto {
   @ValidateNested()
   @IsNotEmptyObject()
-  eventA: ProbabilisticEvent;
+  eventA: ProbabilisticEventDto;
 
   @ValidateNested()
   @IsNotEmptyObject()
-  eventB: ProbabilisticEvent;
+  eventB: ProbabilisticEventDto;
 
   @ValidateNested()
   @IsNotEmptyObject()
-  eventC: ProbabilisticEvent;
+  eventC: ProbabilisticEventDto;
 
   @ValidateNested()
   @IsNotEmptyObject()
-  intersectionAB: ProbabilisticIntersection;
+  intersectionAB: ProbabilisticIntersectionDto;
 
   @ValidateNested()
   @IsNotEmptyObject()
-  intersectionAC: ProbabilisticIntersection;
+  intersectionAC: ProbabilisticIntersectionDto;
 
   @ValidateNested()
   @IsNotEmptyObject()
-  intersectionBC: ProbabilisticIntersection;
+  intersectionBC: ProbabilisticIntersectionDto;
 
   @ValidateNested()
   @IsNotEmptyObject()
-  intersectionABC: ProbabilisticIntersection;
+  intersectionABC: ProbabilisticIntersectionDto;
 }
