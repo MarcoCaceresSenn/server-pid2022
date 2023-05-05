@@ -15,20 +15,20 @@ export class JointProbabilityController {
   ) {}
 
   @Post('two-events')
-  calculateProbabilitiesForTwoEvents(
-    @Body() twoEventsProbabilitiesDto: TwoEventsJointProbabilityDto,
+  calculateJointProbabilityForTwoEvents(
+    @Body() twoEventsJointProbabilityDto: TwoEventsJointProbabilityDto,
   ) {
-    return this.jointProbabilityService.calculateProbabilitiesForTwoEvents(
-      twoEventsProbabilitiesDto,
+    return this.jointProbabilityService.calculateJointProbabilityForTwoEvents(
+      twoEventsJointProbabilityDto,
     );
   }
 
   @Post('three-events')
-  calculateProbabilitiesForThreeEvents(
-    @Body() threeEventsProbabilitiesDto: ThreeEventsJointProbabilityUnionDto,
+  calculateJointProbabilityForThreeEvents(
+    @Body() threeEventsJointProbabilityDto: ThreeEventsJointProbabilityUnionDto,
   ) {
-    return this.jointProbabilityService.calculateProbabilitiesForThreeEvents(
-      threeEventsProbabilitiesDto,
+    return this.jointProbabilityService.calculateJointProbabilityForThreeEvents(
+      threeEventsJointProbabilityDto,
     );
   }
 }

@@ -15,16 +15,16 @@ describe('JointProbabilityController', () => {
     jointProbabilityService = unitRef.get(JointProbabilityService);
   });
 
-  describe('calculateProbabilitiesForTwoEvents', () => {
+  describe('calculateJointProbabilityForTwoEvents', () => {
     it('should call the JointProbabilityService with the correct arguments', () => {
       const expected = { foo: 'bar' };
 
       const jointProbabilityServiceSpy = jest.spyOn(
         jointProbabilityService,
-        'calculateProbabilitiesForTwoEvents',
+        'calculateJointProbabilityForTwoEvents',
       );
 
-      underTest.calculateProbabilitiesForTwoEvents(expected as any);
+      underTest.calculateJointProbabilityForTwoEvents(expected as any);
 
       expect(jointProbabilityServiceSpy).toHaveBeenCalledWith(expected);
     });
@@ -33,25 +33,25 @@ describe('JointProbabilityController', () => {
       const expected = 1234;
 
       jest
-        .spyOn(jointProbabilityService, 'calculateProbabilitiesForTwoEvents')
+        .spyOn(jointProbabilityService, 'calculateJointProbabilityForTwoEvents')
         .mockReturnValueOnce(expected as any);
 
-      const actual = underTest.calculateProbabilitiesForTwoEvents({} as any);
+      const actual = underTest.calculateJointProbabilityForTwoEvents({} as any);
 
       expect(actual).toEqual(expected);
     });
   });
 
-  describe('calculateProbabilitiesForThreeEvents', () => {
+  describe('calculateJointProbabilityForThreeEvents', () => {
     it('should call the JointProbabilityService with the correct arguments', () => {
       const expected = { foo: 'bar' };
 
       const jointProbabilityServiceSpy = jest.spyOn(
         jointProbabilityService,
-        'calculateProbabilitiesForThreeEvents',
+        'calculateJointProbabilityForThreeEvents',
       );
 
-      underTest.calculateProbabilitiesForThreeEvents(expected as any);
+      underTest.calculateJointProbabilityForThreeEvents(expected as any);
 
       expect(jointProbabilityServiceSpy).toHaveBeenCalledWith(expected);
     });
@@ -60,10 +60,15 @@ describe('JointProbabilityController', () => {
       const expected = 1234;
 
       jest
-        .spyOn(jointProbabilityService, 'calculateProbabilitiesForThreeEvents')
+        .spyOn(
+          jointProbabilityService,
+          'calculateJointProbabilityForThreeEvents',
+        )
         .mockReturnValueOnce(expected as any);
 
-      const actual = underTest.calculateProbabilitiesForThreeEvents({} as any);
+      const actual = underTest.calculateJointProbabilityForThreeEvents(
+        {} as any,
+      );
 
       expect(actual).toEqual(expected);
     });

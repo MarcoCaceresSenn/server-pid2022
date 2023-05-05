@@ -9,7 +9,7 @@ import {
 // TODO: Check what happens when probability is more than 1 or less than 0
 @Injectable()
 export class JointProbabilityService {
-  calculateProbabilitiesForTwoEvents({
+  calculateJointProbabilityForTwoEvents({
     eventA,
     eventB,
     intersectionAB,
@@ -51,8 +51,8 @@ export class JointProbabilityService {
     };
   }
 
-  // TODO: Add same information as `calculateProbabilitiesForTwoEvents` for each intersection
-  calculateProbabilitiesForThreeEvents({
+  // TODO: Add same information as `calculateJointProbabilityForTwoEvents` for each intersection
+  calculateJointProbabilityForThreeEvents({
     eventA,
     eventB,
     eventC,
