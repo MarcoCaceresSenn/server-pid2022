@@ -16,11 +16,9 @@ describe('BayesTheoremService', () => {
 
   describe('calculateBayesTheorem', () => {
     it.each<{
-      input: Pick<BayesTheoremRequestDto, 'deciredIntersection'> &
-        Pick<
-          ReturnType<TotalProbabilityService['calculateTotalProbability']>,
-          'totalProbability'
-        >;
+      input: Pick<BayesTheoremRequestDto, 'deciredIntersection'> & {
+        totalProbability: number;
+      };
       expected: BayesTheoremResponseDto;
     }>([
       {
@@ -32,7 +30,10 @@ describe('BayesTheoremService', () => {
           totalProbability: 0.3,
         },
         expected: {
-          probabilityOfOcurrence: 0.0033,
+          probabilityOfOcurrence: {
+            normalized: 0.0033,
+            raw: 0.0033,
+          },
         },
       },
       {
@@ -44,7 +45,10 @@ describe('BayesTheoremService', () => {
           totalProbability: 0.25,
         },
         expected: {
-          probabilityOfOcurrence: 0.36,
+          probabilityOfOcurrence: {
+            normalized: 0.36,
+            raw: 0.36,
+          },
         },
       },
     ])(
@@ -52,7 +56,12 @@ describe('BayesTheoremService', () => {
       ({ expected, input: { deciredIntersection, totalProbability } }) => {
         jest
           .spyOn(totalProbabilityService, 'calculateTotalProbability')
-          .mockReturnValueOnce({ totalProbability });
+          .mockReturnValueOnce({
+            totalProbability: {
+              raw: totalProbability,
+              normalized: -1,
+            },
+          });
 
         const actual = underTest.calculateBayesTheorem({
           deciredIntersection,
@@ -62,19 +71,6 @@ describe('BayesTheoremService', () => {
         expect(actual).toEqual(expected);
       },
     );
-
-    it('should throw an error when total probability is 0', () => {
-      jest
-        .spyOn(totalProbabilityService, 'calculateTotalProbability')
-        .mockReturnValueOnce({ totalProbability: 0 });
-
-      expect(() =>
-        underTest.calculateBayesTheorem({
-          deciredIntersection: {} as any,
-          extraIntersections: [],
-        }),
-      ).toThrowErrorMatchingInlineSnapshot(`"Total probability cannot be 0"`);
-    });
 
     it('should call TotalProbabilityService with the correct params', () => {
       const dto: BayesTheoremRequestDto = {
@@ -98,7 +94,12 @@ describe('BayesTheoremService', () => {
 
       const totalProbabilityServiceSpy = jest
         .spyOn(totalProbabilityService, 'calculateTotalProbability')
-        .mockReturnValueOnce({ totalProbability: 1 });
+        .mockReturnValueOnce({
+          totalProbability: {
+            raw: 1,
+            normalized: -1,
+          },
+        });
 
       underTest.calculateBayesTheorem(dto);
 
@@ -106,6 +107,26 @@ describe('BayesTheoremService', () => {
         Parameters<TotalProbabilityService['calculateTotalProbability']>
       >({
         intersections: expect.arrayContaining(expected),
+      });
+    });
+
+    describe('when total probability is 0', () => {
+      it('should throw an error', () => {
+        jest
+          .spyOn(totalProbabilityService, 'calculateTotalProbability')
+          .mockReturnValueOnce({
+            totalProbability: {
+              raw: 0,
+              normalized: -1,
+            },
+          });
+
+        expect(() =>
+          underTest.calculateBayesTheorem({
+            deciredIntersection: {} as any,
+            extraIntersections: [],
+          }),
+        ).toThrowErrorMatchingInlineSnapshot(`"Total probability cannot be 0"`);
       });
     });
   });

@@ -19,20 +19,22 @@ export class BayesTheoremService {
         intersections: [...extraIntersections, deciredIntersection],
       });
 
-    if (totalProbability === 0)
+    if (totalProbability.raw === 0)
       throw new BadRequestException('Total probability cannot be 0');
 
     const deciredEventProbability = new Big(
       deciredIntersection.event.probability,
     ).times(deciredIntersection.eventGivenB.probability);
 
-    const probabilityOfOcurrence =
-      deciredEventProbability.div(totalProbability);
+    const probabilityOfOcurrence = deciredEventProbability.div(
+      totalProbability.raw,
+    );
 
     return {
-      probabilityOfOcurrence: ProbabilityUtils.normalize(
-        probabilityOfOcurrence,
-      ),
+      probabilityOfOcurrence: {
+        normalized: ProbabilityUtils.normalize(probabilityOfOcurrence),
+        raw: probabilityOfOcurrence.toNumber(),
+      },
     };
   }
 }
