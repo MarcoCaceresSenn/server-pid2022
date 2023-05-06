@@ -20,9 +20,7 @@ export class ConditionalProbabilityService {
     );
 
     return {
-      probabilityOfAGivenB: ProbabilityUtils.normalize(
-        probabilityOfAGivenB.toNumber(),
-      ),
+      probabilityOfAGivenB: ProbabilityUtils.normalize(probabilityOfAGivenB),
     };
   }
 
@@ -30,15 +28,14 @@ export class ConditionalProbabilityService {
     events,
   }: IndependentEventsConditionalProbabilityRequestDto): IndependentEventsConditionalProbabilityResposenDto {
     const probabilityOfOcurrence = events.reduce(
-      (accumulatedProbability, event) => {
-        return accumulatedProbability.times(event.probability);
-      },
+      (accumulatedProbability, event) =>
+        accumulatedProbability.times(event.probability),
       new Big(1),
     );
 
     return {
       probabilityOfOcurrence: ProbabilityUtils.normalize(
-        probabilityOfOcurrence.toNumber(),
+        probabilityOfOcurrence,
       ),
     };
   }

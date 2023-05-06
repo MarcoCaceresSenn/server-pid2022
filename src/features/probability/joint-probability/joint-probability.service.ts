@@ -37,17 +37,15 @@ export class JointProbabilityService {
       );
 
     return {
-      probabilityOfAUnionB: ProbabilityUtils.normalize(
-        probabilityOfAUnionB.toNumber(),
-      ),
+      probabilityOfAUnionB: ProbabilityUtils.normalize(probabilityOfAUnionB),
       probabilityOfAComplementIntersectionB: ProbabilityUtils.normalize(
-        probabilityOfAComplementIntersectionB.toNumber(),
+        probabilityOfAComplementIntersectionB,
       ),
       probabilityOfAIntersectionBComplement: ProbabilityUtils.normalize(
-        probabilityOfAIntersectionBComplement.toNumber(),
+        probabilityOfAIntersectionBComplement,
       ),
       probabilityOfComplementsSum: ProbabilityUtils.normalize(
-        probabilityOfComplementsIntersectionSum.toNumber(),
+        probabilityOfComplementsIntersectionSum,
       ),
     };
   }
@@ -74,9 +72,7 @@ export class JointProbabilityService {
       .minus(sumOfInfividualIntersectionsProbabilities)
       .plus(intersectionABC.probability);
 
-    const normalizedProbability = ProbabilityUtils.normalize(
-      probability.toNumber(),
-    );
+    const normalizedProbability = ProbabilityUtils.normalize(probability);
 
     return normalizedProbability;
   }
