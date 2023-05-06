@@ -10,5 +10,5 @@ export class BayesTheoremRequestDto {
   @ValidateNested({ each: true })
   @Type(() => ProbabilisticIntersectionDto)
   @IsArray()
-  extraIntesections: ProbabilisticIntersectionDto[];
+  extraIntersections: ProbabilisticIntersectionDto[];
 }

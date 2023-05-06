@@ -1,42 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { BayesTheoremRequestDto, BayesTheoremResponseDto } from './dto';
 import Big from 'big.js';
-import { ProbabilisticIntersectionDto, ProbabilityUtils } from '../shared';
+import { ProbabilityUtils } from '../shared';
+import { TotalProbabilityService } from '../total-probability';
 
 @Injectable()
 export class BayesTheoremService {
+  constructor(
+    private readonly totalProbabilityService: TotalProbabilityService,
+  ) {}
+
   calculateBayesTheorem({
     deciredIntersection,
-    extraIntesections,
+    extraIntersections,
   }: BayesTheoremRequestDto): BayesTheoremResponseDto {
-    const deciredEventProbability =
-      this.calculateProbabilityOfOcurrence(deciredIntersection);
+    const { totalProbability } =
+      this.totalProbabilityService.calculateTotalProbability({
+        intersections: [...extraIntersections, deciredIntersection],
+      });
 
-    const extraIntesectionsProbability = extraIntesections.reduce(
-      (accumulatedProbability, extraIntersection) => {
-        const extraEventProbability =
-          this.calculateProbabilityOfOcurrence(extraIntersection);
+    if (totalProbability === 0)
+      throw new BadRequestException('Total probability cannot be 0');
 
-        return accumulatedProbability.plus(extraEventProbability);
-      },
-      deciredEventProbability,
-    );
+    const deciredEventProbability = new Big(
+      deciredIntersection.event.probability,
+    ).times(deciredIntersection.eventGivenB.probability);
 
-    const probabilityOfOcurrence = deciredEventProbability.div(
-      extraIntesectionsProbability,
-    );
+    const probabilityOfOcurrence =
+      deciredEventProbability.div(totalProbability);
 
     return {
       probabilityOfOcurrence: ProbabilityUtils.normalize(
         probabilityOfOcurrence,
       ),
     };
-  }
-
-  private calculateProbabilityOfOcurrence({
-    event,
-    eventGivenB,
-  }: ProbabilisticIntersectionDto) {
-    return new Big(event.probability).times(eventGivenB.probability);
   }
 }
