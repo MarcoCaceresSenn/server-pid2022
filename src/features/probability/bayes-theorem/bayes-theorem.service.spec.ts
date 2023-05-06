@@ -16,14 +16,14 @@ describe('BayesTheoremService', () => {
 
   describe('calculateBayesTheorem', () => {
     it.each<{
-      input: Pick<BayesTheoremRequestDto, 'deciredIntersection'> & {
+      input: Pick<BayesTheoremRequestDto, 'desiredIntersection'> & {
         totalProbability: number;
       };
       expected: BayesTheoremResponseDto;
     }>([
       {
         input: {
-          deciredIntersection: {
+          desiredIntersection: {
             event: { probability: 0.001 },
             eventGivenB: { probability: 0.99 },
           },
@@ -38,7 +38,7 @@ describe('BayesTheoremService', () => {
       },
       {
         input: {
-          deciredIntersection: {
+          desiredIntersection: {
             event: { probability: 0.1 },
             eventGivenB: { probability: 0.9 },
           },
@@ -53,7 +53,10 @@ describe('BayesTheoremService', () => {
       },
     ])(
       'should return the correct result %j',
-      ({ expected, input: { deciredIntersection, totalProbability } }) => {
+      ({
+        expected,
+        input: { desiredIntersection: deciredIntersection, totalProbability },
+      }) => {
         jest
           .spyOn(totalProbabilityService, 'calculateTotalProbability')
           .mockReturnValueOnce({
@@ -64,7 +67,7 @@ describe('BayesTheoremService', () => {
           });
 
         const actual = underTest.calculateBayesTheorem({
-          deciredIntersection,
+          desiredIntersection: deciredIntersection,
           extraIntersections: [],
         });
 
@@ -74,7 +77,7 @@ describe('BayesTheoremService', () => {
 
     it('should call TotalProbabilityService with the correct params', () => {
       const dto: BayesTheoremRequestDto = {
-        deciredIntersection: {
+        desiredIntersection: {
           event: { probability: 0.1 },
           eventGivenB: { probability: 0.2 },
         },
@@ -90,7 +93,7 @@ describe('BayesTheoremService', () => {
         ],
       };
 
-      const expected = [dto.deciredIntersection, ...dto.extraIntersections];
+      const expected = [dto.desiredIntersection, ...dto.extraIntersections];
 
       const totalProbabilityServiceSpy = jest
         .spyOn(totalProbabilityService, 'calculateTotalProbability')
@@ -123,7 +126,7 @@ describe('BayesTheoremService', () => {
 
         expect(() =>
           underTest.calculateBayesTheorem({
-            deciredIntersection: {} as any,
+            desiredIntersection: {} as any,
             extraIntersections: [],
           }),
         ).toThrowErrorMatchingInlineSnapshot(`"Total probability cannot be 0"`);

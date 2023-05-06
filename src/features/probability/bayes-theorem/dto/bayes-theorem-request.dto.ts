@@ -5,7 +5,7 @@ import { ValidateNested, IsNotEmptyObject, IsArray } from 'class-validator';
 export class BayesTheoremRequestDto {
   @ValidateNested()
   @IsNotEmptyObject()
-  deciredIntersection: ProbabilisticIntersectionDto;
+  desiredIntersection: ProbabilisticIntersectionDto;
 
   @ValidateNested({ each: true })
   @Type(() => ProbabilisticIntersectionDto)

@@ -11,22 +11,22 @@ export class BayesTheoremService {
   ) {}
 
   calculateBayesTheorem({
-    deciredIntersection,
+    desiredIntersection,
     extraIntersections,
   }: BayesTheoremRequestDto): BayesTheoremResponseDto {
     const { totalProbability } =
       this.totalProbabilityService.calculateTotalProbability({
-        intersections: [...extraIntersections, deciredIntersection],
+        intersections: [...extraIntersections, desiredIntersection],
       });
 
     if (totalProbability.raw === 0)
       throw new BadRequestException('Total probability cannot be 0');
 
-    const deciredEventProbability = new Big(
-      deciredIntersection.event.probability,
-    ).times(deciredIntersection.eventGivenB.probability);
+    const desiredEventProbability = new Big(
+      desiredIntersection.event.probability,
+    ).times(desiredIntersection.eventGivenB.probability);
 
-    const probabilityOfOcurrence = deciredEventProbability.div(
+    const probabilityOfOcurrence = desiredEventProbability.div(
       totalProbability.raw,
     );
 
