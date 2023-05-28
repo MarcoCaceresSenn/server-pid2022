@@ -9,6 +9,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
   app.enableVersioning();
+  app.enableCors();
 
   const environmentService = app.get(EnvironmentService);
 
