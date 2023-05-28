@@ -6,6 +6,6 @@ services:
       target: dev
       dockerfile: Dockerfile.dev
     ports:
-      - 4080:8080
+      - 1339:8080
     volumes:
       - ./src:/app/src
