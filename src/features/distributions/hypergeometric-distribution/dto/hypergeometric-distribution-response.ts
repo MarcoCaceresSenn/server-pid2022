@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-export class BinomialDistributionResponseDto {
+
+export class HypergeometricDistributionResponseDto {
   @ApiProperty()
   probability: number;
 }

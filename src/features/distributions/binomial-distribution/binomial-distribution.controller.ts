@@ -2,7 +2,9 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { BinomialDistributionService } from './binomial-distribution.service';
 import { BinomialDistributionRequestDto } from './dto/binomial-distribution-request.dto';
 import { BinomialDistributionResponseDto } from './dto/binomial-distribution-response.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Binomial Distribution')
 @Controller({
   path: 'binomial-distribution',
   version: '1',
@@ -10,7 +12,7 @@ import { BinomialDistributionResponseDto } from './dto/binomial-distribution-res
 export class BinomialDistributionController {
   constructor(private readonly service: BinomialDistributionService) {}
 
-  @Post('calculate')
+  @Post('calculate/binomial')
   calculateProbability(
     @Body() dto: BinomialDistributionRequestDto,
   ): BinomialDistributionResponseDto {
