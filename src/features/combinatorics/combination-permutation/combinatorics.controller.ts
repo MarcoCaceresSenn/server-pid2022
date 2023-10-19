@@ -1,7 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CombinatoricsService } from './combinatorics.service';
 import { CombinatoricsRequestDto, CombinatoricsResponseDto } from './dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Combinatorics')
 @Controller({
   path: 'combinatorics',
   version: '1',
